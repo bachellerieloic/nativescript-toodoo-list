@@ -1,0 +1,53 @@
+// NativeScript core theme
+// @see https://docs.nativescript.org/ui/theme
+@import '~@nativescript/theme/core';
+@import '~@nativescript/theme/sky';
+
+
+// Global SCSS styling
+// @see https://docs.nativescript.org/ui/styling
+
+ActionBar {
+  background-color: #2bb9ff;
+  color: #ffffff;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.message {
+  vertical-align: center;
+  text-align: center;
+  font-size: 20;
+  color: #333333;
+}
+
+.drawer-close-button {
+  margin-top: 20;
+  padding: 10 10 10 10;
+  background-color: #d0d0d0;
+  color: #000000;
+}
+
+.drawer-header {
+  padding: 16 16 16 16;
+  margin-bottom: 16;
+  background-color: #333333;
+  color: #ffffff;
+  font-size: 24;
+  text-align: center;
+}
+
+.drawer-item {
+  padding: 8 16;
+  color: #333333;
+  font-size: 16;
+}
+
+.fa {
+  font-family: 'FontAwesome', 'fontawesome-webfont';
+}
