@@ -1,3 +1,5 @@
+import {firebase} from '@nativescript/firebase';
+
 const state = {
     todo: {},
     todos: [
@@ -14,8 +16,12 @@ const mutations = {
     setTodo(state, item){
         state.todo = item;
     },
-    setTodos(state, items){
-        state.todos = items;
+    setTodos(state, todos){
+        const todosArr = [];
+        Object.keys(todos).forEach((key) => {
+            todosArr.push({id:key, ...todos[key]});
+        });
+        state.todos = todosArr;
     },
     save(item, state) {
 
@@ -28,19 +34,36 @@ const mutations = {
 const actions = {
     addTodo(context, todoItem) {
         context.commit('add', todoItem);
+        firebase.push('/todos', todoItem);
+        firebase.getValue('/todos')
+            .then(result => context.commit('setTodos', result.value))
+            .catch(error => console.log("Error: " + error));
     },
 
-    deleteTodo(context, todoItem) {
-        context.commit('delete', todoItem);
+    editTodo(context, todoItem) {
+        let key = todoItem.id;
+        delete todoItem.id;
+        //update the element
+        firebase.update('/todos/'+key, todoItem);
+        //fetch all todos again
+        // firebase.getValue('/todos')
+        //     .then(result => context.commit('setTodos', result.value))
+        //     .catch(error => console.log("Error: " + error));
+    },
+
+    deleteTodo(context, todoId) {
+        firebase.remove("/todos/"+todoId);
     },
 
     setTodo(context, todoItem) {
         context.commit('setTodo', todoItem);
     },
 
-    setTodos(context, todos) {
-        console.log('VUEX *************', todos);
-        context.commit('setTodos', todos);
+    fetchTodos(context) {
+        //fetch all todos
+        firebase.getValue('/todos')
+            .then(result => context.commit('setTodos', result.value))
+            .catch(error => console.log("Error: " + error));
     },
 };
 
